@@ -9,6 +9,21 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  final appScreens = [
+    const Center(child: Text("Home")),
+    const Center(child: Text("Search")),
+    const Center(child: Text("Tickets")),
+    const Center(child: Text("Profile")),
+  ];
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +31,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
           backgroundColor: Colors.amber[50],
           title: const Center(child: Text("Ticket")),
         ),
-        body: const Center(
-          child: Text("ticket info"),
-        ),
+        body: appScreens[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
             selectedItemColor: Colors.blueGrey,
             unselectedItemColor: const Color(0xFF526400),
             showSelectedLabels: false,
