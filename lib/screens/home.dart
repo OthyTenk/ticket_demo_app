@@ -1,9 +1,12 @@
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:ticket_app/base/res/app_routes.dart';
 import 'package:ticket_app/base/res/media.dart';
 import 'package:ticket_app/base/res/styles/app_styles.dart';
+import 'package:ticket_app/base/utils/all_json.dart';
 import 'package:ticket_app/base/widgets/app_double_text.dart';
 import 'package:ticket_app/base/widgets/ticket_view.dart';
+import 'package:ticket_app/screens/widgets/hotel.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,6 +23,7 @@ class HomeScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,24 +74,50 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                // Upcoming Flights
                 const SizedBox(
                   height: 40,
                 ),
-                const AppDoubleText(
+                AppDoubleText(
                   bigText: "Upcoming Flights",
                   smallText: "View all",
+                  func: () => Navigator.pushNamed(context, AppRoutes.tickets),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const TicketView(),
+                SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: ticketList.take(2).map((ticketItem) {
+                        return TicketView(
+                          ticket: ticketItem,
+                        );
+                      }).toList(),
+                    )),
                 const SizedBox(
                   height: 40,
                 ),
-                const AppDoubleText(
-                  bigText: "Upcoming meetings",
+                // Hotels
+                AppDoubleText(
+                  bigText: "Hotels",
                   smallText: "View all",
+                  func: () => Navigator.pushNamed(context, AppRoutes.home),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: hotelList
+                        .take(2)
+                        .map((hotel) => Hotel(
+                              hotel: hotel,
+                            ))
+                        .toList(),
+                  ),
+                )
               ],
             ),
           ),
